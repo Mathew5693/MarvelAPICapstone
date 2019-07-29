@@ -1,11 +1,17 @@
 * {
   box-sizing: border-box;
-  margin: 0 auto;
-  padding: 0 0;
+  margin: 0;
+  padding: 0;
+  
 }
 
 body, html {
   height: 100%;
+}
+
+body {
+  margin: 0 auto;
+  width: 80%;
 }
 
 .toPage {
@@ -23,3 +29,29 @@ body, html {
   object-fit: contain;
   padding-top: 2%;
 }
+
+.Comics, .Stories {
+  border-bottom: 2px solid black;
+}
+
+.titles {
+  font-size: 32px;
+}
+
+.Comics .comicWrap {
+  padding-top: 2%;
+  width: 33.33%;
+  float:left;
+  text-align: center;
+  height: 325px;
+}
+
+.Comics:after {
+  clear: both;
+}
+
+.linkContainer img {
+  width: 33.33%;
+}
+
+

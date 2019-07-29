@@ -3,7 +3,7 @@
 const apiKey = '28cce36eea2a4d2938dc1ef9edc48c9d';
 const hash ='a270a8e589b61a8dbafd46388ff7297f';
 const ts = '1563499589798';
-const searchURL = 'https://gateway.marvel.com:443/v1/public/characters';
+const apiURL = 'https://gateway.marvel.com:443';
 
 function formatQueryParams(params) {
   const queryItems = Object.keys(params)
@@ -11,30 +11,19 @@ function formatQueryParams(params) {
   return queryItems.join('&');
 }
 
-
-/* future requests
-function getRequest(hero, shorthand, comic, series, events, stories)
-*/
-
-function getRequest(hero){
+function generateHash(){
   const params = {
-    name : hero,
     apikey : apiKey,
     ts : ts,
     hash : hash
-
-
-    /*nameStartsWith : shortHand,
-    comics : comic,
-    series : series,
-    events : events,
-    stories : stories */
   };
 
   const queryString = formatQueryParams(params);
-  const url = searchURL + '?' + queryString;
+  return queryString;
+}
 
-  fetch(url)
+function fetchURL(link, successCallback){
+  fetch(link)
     .then(response => {
       if ( response.ok ){
         return response.json();
@@ -45,53 +34,136 @@ function getRequest(hero){
       
     })
     .then(finalResponse => {
-      displayResults(finalResponse);
+      successCallback(finalResponse);
     })
     .catch(error => {
        $('.results').empty();
        $('.results').html(`<p>${error.message}</p>`)
     });
+}
 
+function getRequest(hero){
+  const params = {
+    name : hero,
+    apikey : apiKey,
+    ts : ts,
+    hash : hash
+  };
+
+  const queryString = formatQueryParams(params);
+  const searchURL = apiURL + '/v1/public/characters';
+  const url = searchURL + '?' + queryString;
+  fetchURL(url, displayResults);
 
 }
 
+
 function displayResults(heroInfo){
+
+  let x = heroInfo;
+  generalInfo(x);
+
+  let heroID = heroInfo.data.results[0].id;
+  console.log(heroID);
+  getComics(heroID);
+  //getStories(heroID);
+
+}
+
+//display main Splash, general Info
+function generalInfo(heroInfo){
   $('.results').empty();
 
-  let face = heroInfo.data.results[0].thumbnail.path + `.` + heroInfo.data.results[0].thumbnail.extension;
+  let heroIMG = heroInfo.data.results[0].thumbnail.path + `.` + heroInfo.data.results[0].thumbnail.extension;
 
   $('.results').append(`
+                        
                         <div class='toPage'>
                         <h1>${heroInfo.data.results[0].name}</h1>
                         <p>${heroInfo.data.results[0].description}</p>
-                        <img src="${face}">
+                        <img src="${heroIMG}">
                         </div>
+                        
+  `);
+}
 
+
+function getComics(heroInfo){
+  let urlHsh = generateHash();
+  let heroID = '/v1/public/characters/'+ heroInfo + '/comics';
+  const searchURL = apiURL + heroID;
+  const url = searchURL + '?' + urlHsh;
+  fetchURL(url, relatedComics);
+}
+
+
+//displays additional options i.e. stories, comics, etc
+function relatedComics(heroInfo){
+  $('.Comics').empty();
+  $('.Comics').append(` 
+                            <div class="titles">Comics</div>
   `);
 
-  console.log(
-    heroInfo.data.results
-  );
+  for(let j = 0; j < 6; j++){
+    let comicLink = heroInfo.data.results[j].urls[0].url;
+    let cover = heroInfo.data.results[j].thumbnail.path + '.jpg';
+    let title = heroInfo.data.results[j].title;
+  
+  $('.Comics').append(`
+  
+                        <div class="comicWrap">
+                          <div class="linkContainer">
+                            <a href="${comicLink}" target="_blank"><img src ="${cover}"></a>
+                            <h3>${title}</h3>
+                          </div>
+                        </div>    
 
+  `);}
 }
+
+/*
+
+function getStories(heroInfo){
+  let urlHsh = generateHash();
+  let heroID = '/v1/public/characters/'+ heroInfo + '/stories';
+  const searchURL = apiURL + heroID;
+  const url = searchURL + '?' + urlHsh;
+  fetchURL(url, relatedStories);
+}
+
+function relatedStories(heroInfo){
+  $('.Stories').empty();
+  $('.Stories').append(` 
+                            <div class="titles">Stories</div>
+  `);
+
+  for(let j = 0; j < 6; j++){
+    let comicLink = heroInfo.data.results[j].urls[0].url;
+    let cover = heroInfo.data.results[j].thumbnail.path + '.jpg';
+    let title = heroInfo.data.results[j].title;
+  
+  $('.relatedComics').append(`
+  
+                        <div class="comicWrap">
+                          <div class="linkContainer">
+                            <a href="${comicLink}" target="_blank"><img src ="${cover}"></a>
+                            <h3>${title}</h3>
+                          </div>
+                        </div>    
+
+  `);}
+  
+}
+
+*/
 
 
 
 function watchForm(){
   $('.submitForm').on('click', (event) => {
     event.preventDefault();
-
-    const heroName = $('.heroName').val();
-    
-    /* future requests
-    let heroShort = $().val();
-    let heroComic = $().val();
-    let heroSeries = $().val();
-    let heroEvents = $().val();
-    let heroStories = $().val();
-    */
-
-    getRequest(heroName);
+    const heroQuery = $('.heroQuery').val();
+    getRequest(heroQuery);
   });
 
 }
@@ -99,12 +171,6 @@ function watchForm(){
 $(watchForm);
 
 /*
-make /v1/public/characters?name=thor a part of hero.val() for all requests
-i.e.
-
-/v1/public/comics?title=thor replace thor with .val() for comics etc
-
-
 Refernce URL
 
 https://gateway.marvel.com:443/v1/public/characters?name=thor&apikey=28cce36eea2a4d2938dc1ef9edc48c9d&ts=1563499589798&hash=a270a8e589b61a8dbafd46388ff7297f
