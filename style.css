@@ -2,16 +2,27 @@
   box-sizing: border-box;
   margin: 0;
   padding: 0;
-  
 }
 
 body, html {
-  height: 100%;
+  min-height: 100%;
+}
+
+:root {
+  --fontColor: white;
 }
 
 body {
+  color: var(--fontColor);
+  font-family: 'Amaranth', sans-serif;
   margin: 0 auto;
-  width: 80%;
+  width: 50%;
+  background-image: url(bodyIMG2.jpg);
+  background-size: auto;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+ 
 }
 
 .toPage {
@@ -20,6 +31,7 @@ body {
 }
 
 .toPage p {
+  font-family: 'Open Sans', sans-serif;
   text-align: left;
 }
 
@@ -30,12 +42,9 @@ body {
   padding-top: 2%;
 }
 
-.Comics, .Stories {
-  border-bottom: 2px solid black;
-}
-
 .titles {
   font-size: 32px;
+  border-bottom: 2px solid white;
 }
 
 .Comics .comicWrap {
@@ -54,4 +63,119 @@ body {
   width: 33.33%;
 }
 
+.heroSearch {
+  padding-top: 7%;
+  text-align: center;
+  height: 15%;
+}
 
+.heroQuery {
+  border: 2px solid var(--fontColor);
+  width: 30%;
+  height: 36px;
+  border-radius: 2px;
+  padding: 10px;
+}
+
+.heroSearch > button {
+  height: 36px;
+  border-radius: 2px;
+  padding-left: 25px;
+  padding-right: 25px;
+  border: 2px solid var(--fontColor);
+  color: var(--fontColor);
+  background: transparent;
+}
+
+.heroSearch > button:hover {
+  background-color: var(--fontColor);
+  color:black;
+  cursor: pointer;
+}
+
+.linkContainer:hover {
+  border-bottom: 2px solid white;
+  padding-bottom: 2px;
+  cursor: pointer;
+}
+
+.linkContainer h3 a {
+  color:var(--fontColor);
+  text-decoration: none;
+}
+
+.loading{
+  margin: 0 auto;
+  display: block;
+  width: 200px;
+}
+
+.buttonContainer{
+  width: 100%;
+  display: inline-block;
+  text-align: center;
+}
+
+.buttonContainer > button {
+  width: 108px;
+  height: 54px;
+  text-decoration: none;
+  text-align: center;
+  border-radius: 3px;
+  background: transparent;
+  color: var(--fontColor);
+  border: 3px solid;
+}
+
+.buttonContainer .next {
+  margin-left: 5%;
+}
+.buttonContainer .previous {
+  margin-right: 5%;
+}
+
+.buttonContainer > button:hover {
+  background-color: var(--fontColor);
+  color:black;
+  cursor: pointer;
+}
+
+.errorWrap {
+  display:flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  padding-top: 5%;
+  overflow: visible;
+}
+
+.errorHandle p {
+  text-align: center;
+  padding: 1%;
+}
+
+.errorIMG {
+  padding-top: 5%;
+  width: 40%;
+}
+
+.backgroundSplash {
+  width: 100%;
+  height: 800px;
+  background-image: url(backgroundSplash.png), url(marvelSplash.png);
+  background-size: auto, 600px 300px;
+  background-position: bottom, center;
+  background-repeat: no-repeat;
+  animation: fadeIn ease 4s;
+ 
+}
+
+
+@keyframes fadeIn{
+  0% {
+    opacity:0;
+  }
+  100% {
+    opacity:1;
+  }
+}
