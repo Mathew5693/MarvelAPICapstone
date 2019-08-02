@@ -4,27 +4,43 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>MarvelAPICapstone</title>
+
     <link rel="stylesheet" type="text/css" href="//cdnjs.cloudflare.com/ajax/libs/normalize/6.0.0/normalize.css">
+    
     <link href="style.css" rel="stylesheet" type="text/css" />
+
+    <link href="https://fonts.googleapis.com/css?family=Amaranth&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+
   </head>
   <body>
-
+    
     <form class="heroSearch">
-      <label>  Type hero name
-        <input type="text" class="heroName">
+      <label>
+        <input type="text" placeholder="Thanos..." class="heroQuery">
       </label>
       
       <button type="submit" class="submitForm">
-        Search
+        <i class="fa fa-search"></i>
       </button>
       <p><small><i>*Be sure to add '-' or spaces for any Hero name i.e. Spider-man, Iron man.</i></small></p>
     </form>
+    
+    
+    <section>
+      <div class="backgroundSplash"></div>
+      <div class="results"></div>
+    </section>
 
-    <div class="results"></div>
-
-
+    <section>
+      <div class="Comics"></div>
+    </section>
+    
     <script src="//code.jquery.com/jquery.min.js"></script>
     <script src="https://code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
     <script src="script.js"></script>
+
   </body>
 </html>
